@@ -1,1 +1,13 @@
 /qgis_env
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.bak
+.DS_Store
+.idea/
+*.iml
+*.swp
+*.swo
