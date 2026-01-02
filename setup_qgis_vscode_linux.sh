@@ -178,7 +178,43 @@ EOF
 }
 
 # ---------------------------------------------------------
-# 5. Actualizar .gitignore
+# 5. Crear configuración de VSCode
+# ---------------------------------------------------------
+create_vscode_settings() {
+    VSCODE_DIR="${WORKSPACE_DIR}/.vscode"
+    SETTINGS_FILE="${VSCODE_DIR}/settings.json"
+    
+    echo -e "\n${CAT_WORK} Creando configuración de VSCode..."
+    
+    # Crear directorio .vscode si no existe
+    mkdir -p "${VSCODE_DIR}"
+    
+    if [ -f "${SETTINGS_FILE}" ]; then
+        echo -e "${CAT_WORK} Ya existe archivo .vscode/settings.json"
+        read -p "¿Deseas sobrescribirlo? (s/N): " overwrite
+        if [[ ! $overwrite =~ ^[Ss]$ ]]; then
+            echo -e "${CAT_WORK} Se mantiene el archivo settings.json existente"
+            return
+        fi
+    fi
+    
+    cat > "${SETTINGS_FILE}" << EOF
+{
+    "python-envs.pythonProjects": [
+        {
+            "path": "",
+            "envManager": "ms-python.python:conda",
+            "packageManager": "ms-python.python:conda"
+        }
+    ]
+}
+EOF
+    
+    echo -e "${CAT_OK} Archivo settings.json creado en: ${SETTINGS_FILE}"
+}
+
+# ---------------------------------------------------------
+# 6. Actualizar .gitignore
 # ---------------------------------------------------------
 update_gitignore() {
     GITIGNORE="${WORKSPACE_DIR}/.gitignore"
@@ -189,7 +225,7 @@ update_gitignore() {
     touch "${GITIGNORE}"
     
     # Elementos a ignorar
-    IGNORE_ITEMS=(".env" "${ENV_NAME}/" "*.pyc" "__pycache__/" ".vscode/" "*.code-workspace")
+    IGNORE_ITEMS=(".env" "${ENV_NAME}/" "*.pyc" "__pycache__/" "*.code-workspace")
     
     for item in "${IGNORE_ITEMS[@]}"; do
         if ! grep -q "^${item}$" "${GITIGNORE}" 2>/dev/null; then
@@ -265,6 +301,7 @@ main() {
     check_or_create_env
     create_env_file
     create_workspace
+    create_vscode_settings
     update_gitignore
     
     # Preguntar si verificar
