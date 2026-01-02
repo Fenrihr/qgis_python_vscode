@@ -1,4 +1,5 @@
 import qgis
+
 from qgis.core import (
     QgsApplication,
     QgsVectorLayer,
