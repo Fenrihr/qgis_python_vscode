@@ -14,7 +14,8 @@ qgs = QgsApplication([], False)
 qgs.initQgis()
 
 # ✔️ Obtener versión directamente del módulo qgis
-print("🐾 Versión de QGIS:", Qgis.QGIS_DEV_VERSION)
+print("🐾 Versión:", Qgis.QGIS_VERSION)
+print("🐾 Versión DEV:", Qgis.QGIS_DEV_VERSION)
 print("🐾 Versión numérica:", Qgis.QGIS_VERSION_INT)
 
 # Probar cargar una capa vacía de memoria
